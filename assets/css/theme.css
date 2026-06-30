@@ -1,0 +1,714 @@
+/* ==========================================================
+   来了，WatchDog 主题，深色模式，逼格拉满，摸鱼必备。
+   ========================================================== */
+
+:root {
+    --c-bg:        #0d1117;
+    --c-surface:   #161b22;
+    --c-surface2:  #21262d;
+    --c-border:    #30363d;
+    --c-border-s:  #21262d;
+    --c-text:      #e6edf3;
+    --c-muted:     #7d8590;
+    --c-blue:      #58a6ff;
+    --c-blue-d:    #1f6feb;
+    --c-green:     #3fb950;
+    --c-red:       #f85149;
+    --c-yellow:    #e3b341;
+    --c-purple:    #bc8cff;
+    --c-radius:    8px;
+    --c-radius-s:  4px;
+    --c-shadow:    0 8px 32px rgba(0,0,0,.5);
+    --c-sidebar-w: 220px;
+    --c-topbar-h:  56px;
+    --c-transition:.15s ease;
+}
+
+/* 先把浏览器那些乱七八糟的默认样式清掉，不然看着糟心 */
+*, *::before, *::after { box-sizing: border-box; }
+body, h1, h2, h3, p, ul, ol, li, figure { margin: 0; padding: 0; }
+
+/* 全局样式，所有页面都套这一套，省得重复写 */
+.wd-body {
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+/* App 布局，左边菜单右边内容，经典到不能再经典了 */
+.wd-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ========================================
+   侧边栏，你永远不知道它到底藏了多少功能
+   ======================================== */
+.wd-sidebar {
+    width: var(--c-sidebar-w);
+    min-height: 100vh;
+    background: var(--c-surface);
+    border-right: 1px solid var(--c-border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 200;
+    transition: transform var(--c-transition);
+}
+
+.wd-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid var(--c-border-s);
+}
+.wd-brand-icon {
+    font-size: 1.6rem;
+    color: var(--c-blue);
+    line-height: 1;
+    animation: wd-pulse 3s infinite;
+}
+@keyframes wd-pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+.wd-brand-name { font-size: 1rem; font-weight: 700; color: var(--c-text); display: block; }
+.wd-brand-sub  { font-size: .7rem; color: var(--c-muted); }
+
+.wd-nav {
+    flex: 1;
+    min-height: 0;          /* 坑爹，不加这个 flex 子项就不老实收缩，footer 直接被挤飞，试了半天才发现的 */
+    padding: 10px 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.wd-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--c-radius-s);
+    color: var(--c-muted);
+    text-decoration: none;
+    font-size: .875rem;
+    transition: all var(--c-transition);
+    margin-bottom: 2px;
+}
+.wd-nav-item:hover         { background: var(--c-surface2); color: var(--c-text); }
+.wd-nav-item--active       { background: rgba(88,166,255,.12); color: var(--c-blue); border-left: 2px solid var(--c-blue); padding-left: 10px; }
+.wd-nav-icon               { font-size: 1rem; flex-shrink: 0; }
+
+/* 这些都是图标，纯字符硬拼的，别嫌丑，能用就行 */
+.wd-icon-grid::before     { content:'⬡'; }
+.wd-icon-server::before   { content:'⬢'; }
+.wd-icon-list::before     { content:'≡'; }
+.wd-icon-monitor::before  { content:'◉'; }
+.wd-icon-terminal::before { content:'$'; font-family:monospace; }
+.wd-icon-key::before      { content:'⚿'; }
+.wd-icon-user::before     { content:'⊙'; }
+.wd-icon-bot::before      { content:'⚡'; }
+
+.wd-sidebar-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 0 18px;
+    border-top: 1px solid var(--c-border-s);
+    flex-shrink: 0;
+}
+.wd-avatar-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a56db, var(--c-blue));
+    color: #fff;
+    font-size: .9rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 0 0 2px var(--c-surface), 0 0 0 4px rgba(88,166,255,.25);
+    transition: box-shadow var(--c-transition), transform var(--c-transition);
+}
+.wd-avatar-btn:hover {
+    box-shadow: 0 0 0 2px var(--c-surface), 0 0 0 4px var(--c-blue);
+    transform: scale(1.08);
+}
+.wd-user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--c-blue-d);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .85rem; flex-shrink: 0;
+}
+.wd-user-meta { flex: 1; overflow: hidden; }
+.wd-user-name { font-size: .8rem; color: var(--c-text); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wd-user-role { font-size: .7rem; color: var(--c-muted); }
+.wd-logout-btn {
+    font-size: 1.1rem; color: var(--c-muted); text-decoration: none;
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+    border-radius: var(--c-radius-s); transition: all var(--c-transition);
+}
+.wd-logout-btn:hover { color: var(--c-red); background: rgba(248,81,73,.1); }
+
+/* ========================================
+   主内容区，右边那块，所有干活的地方都在这里
+   ======================================== */
+.wd-main {
+    flex: 1;
+    margin-left: var(--c-sidebar-w);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 顶部那一栏，放标题、时间啥的，一眼就能看到 */
+.wd-topbar {
+    height: var(--c-topbar-h);
+    background: var(--c-surface);
+    border-bottom: 1px solid var(--c-border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+}
+.wd-topbar-center { flex: 1; font-weight: 600; color: var(--c-text); font-size: .95rem; }
+.wd-topbar-right  { display: flex; align-items: center; gap: 16px; }
+.wd-topbar-time   { font-size: .8rem; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+.wd-online-indicator { display: flex; align-items: center; gap: 6px; font-size: .85rem; color: var(--c-muted); }
+.wd-menu-toggle   { display: none; background: none; border: none; color: var(--c-text); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; }
+
+.wd-content { flex: 1; padding: 24px; }
+
+/* ========================================
+   页面级别的通用样式，每个页面都会用到的
+   ======================================== */
+.wd-page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--c-border);
+}
+.wd-page-title {
+    font-size: 1.4rem; font-weight: 700; color: var(--c-text);
+    display: flex; align-items: center; gap: 10px;
+}
+.wd-header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ========================================
+   统计卡片，显示各种数字，看起来很有业绩的样子
+   ======================================== */
+.wd-stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.wd-stat-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius);
+    padding: 20px 18px;
+    display: flex; align-items: center; gap: 16px;
+    transition: border-color var(--c-transition), transform var(--c-transition);
+    cursor: default;
+}
+.wd-stat-card:hover { border-color: var(--c-blue); transform: translateY(-1px); }
+.wd-stat-card--blue   { border-top: 2px solid var(--c-blue); }
+.wd-stat-card--green  { border-top: 2px solid var(--c-green); }
+.wd-stat-card--red    { border-top: 2px solid var(--c-red); }
+.wd-stat-card--purple { border-top: 2px solid var(--c-purple); }
+.wd-stat-icon { font-size: 1.8rem; opacity: .6; }
+.wd-stat-num  { font-size: 2rem; font-weight: 700; line-height: 1; color: var(--c-text); }
+.wd-stat-label { font-size: .75rem; color: var(--c-muted); margin-top: 4px; }
+
+/* ========================================
+   两栏布局，左边右边各占一半，强迫症福音
+   ======================================== */
+.wd-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.wd-two-col--70-30 { grid-template-columns: 2fr 1fr; }
+@media (max-width: 1024px) { .wd-two-col, .wd-two-col--70-30 { grid-template-columns: 1fr; } }
+
+/* ========================================
+   卡片组件，装东西用的，什么都能往里塞
+   ======================================== */
+.wd-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.wd-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-surface);
+}
+.wd-card-header h2 { font-size: .95rem; font-weight: 600; color: var(--c-text); }
+.wd-card-body     { padding: 20px; }
+.wd-card-footer   {
+    padding: 12px 20px; border-top: 1px solid var(--c-border);
+    background: var(--c-surface2);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.wd-p0 { padding: 0 !important; }
+.wd-mt-4 { margin-top: 16px; }
+
+/* ========================================
+   Tab 切换，像浏览器标签页一样，点来点去
+   ======================================== */
+.wd-tabs {
+    display: flex; gap: 2px; border-bottom: 1px solid var(--c-border);
+    margin-bottom: 20px; overflow-x: auto; padding-bottom: 0;
+}
+.wd-tab {
+    padding: 10px 18px; background: none; border: none;
+    color: var(--c-muted); font-size: .875rem; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    white-space: nowrap; transition: all var(--c-transition);
+}
+.wd-tab:hover          { color: var(--c-text); }
+.wd-tab--active        { color: var(--c-blue); border-bottom-color: var(--c-blue); }
+
+/* ========================================
+   表格，规规矩矩的行行列列，数据展示就靠它了
+   ======================================== */
+.wd-table { width: 100%; border-collapse: collapse; }
+.wd-table th {
+    padding: 11px 16px; text-align: left;
+    font-size: .75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--c-muted);
+    background: var(--c-surface2); border-bottom: 1px solid var(--c-border);
+}
+.wd-table td { padding: 12px 16px; border-bottom: 1px solid var(--c-border-s); vertical-align: middle; }
+.wd-table tbody tr:last-child td { border-bottom: none; }
+.wd-table--hover tbody tr:hover  { background: var(--c-surface2); }
+.wd-disabled { opacity: .45; }
+.wd-center   { text-align: center !important; }
+
+/* ========================================
+   按钮们，各种颜色各种大小，够你用的了
+   ======================================== */
+.wd-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 7px 14px; border-radius: var(--c-radius-s);
+    font-size: .875rem; font-weight: 500; cursor: pointer;
+    border: 1px solid transparent; transition: all var(--c-transition);
+    text-decoration: none; white-space: nowrap; line-height: 1.4;
+}
+.wd-btn--primary { background: var(--c-blue-d); color: #fff; border-color: var(--c-blue-d); }
+.wd-btn--primary:hover { background: #388bfd; border-color: #388bfd; color: #fff; }
+.wd-btn--blue    { background: var(--c-blue-d); color: #fff; border-color: var(--c-blue-d); }
+.wd-btn--ghost   { background: transparent; color: var(--c-muted); border-color: var(--c-border); }
+.wd-btn--ghost:hover { color: var(--c-text); border-color: #8b949e; background: var(--c-surface2); }
+.wd-btn--danger  { background: transparent; color: var(--c-red); border-color: var(--c-red); }
+.wd-btn--danger:hover { background: rgba(248,81,73,.1); }
+.wd-btn--info    { background: rgba(88,166,255,.1); color: var(--c-blue); border-color: rgba(88,166,255,.4); }
+.wd-btn--info:hover   { background: rgba(88,166,255,.2); }
+.wd-btn--sm  { padding: 5px 10px; font-size: .8rem; }
+.wd-btn--xs  { padding: 3px 8px; font-size: .75rem; }
+.wd-btn--full { width: 100%; }
+.wd-btn--cmd { font-family: monospace; font-size: .75rem; }
+.wd-btn[disabled] { opacity: .45; cursor: not-allowed; pointer-events: none; }
+
+/* ========================================
+   表单，输入框、下拉框、标签，用户填信息的地方
+   ======================================== */
+.wd-form-group { margin-bottom: 18px; }
+.wd-label { display: block; font-size: .875rem; font-weight: 500; color: var(--c-text); margin-bottom: 6px; }
+.wd-required { color: var(--c-red); }
+.wd-input {
+    width: 100%; padding: 8px 12px;
+    background: var(--c-bg); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s); color: var(--c-text); font-size: .875rem;
+    transition: border-color var(--c-transition);
+}
+.wd-input:focus { outline: none; border-color: var(--c-blue); box-shadow: 0 0 0 3px rgba(88,166,255,.12); }
+.wd-input--sm  { padding: 5px 8px; font-size: .8rem; }
+.wd-input-group { display: flex; gap: 8px; }
+.wd-input-group .wd-input { flex: 1; }
+.wd-input-with-icon { position: relative; }
+.wd-input-with-icon .wd-input--icon { padding-left: 36px; padding-right: 40px; }
+.wd-input-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: .9rem; pointer-events: none; opacity: .5; }
+.wd-input-toggle-vis { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: .9rem; opacity: .5; transition: opacity var(--c-transition); }
+.wd-input-toggle-vis:hover { opacity: 1; }
+.wd-select {
+    padding: 7px 12px; background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s); color: var(--c-text); font-size: .875rem; cursor: pointer;
+}
+.wd-select:focus { outline: none; border-color: var(--c-blue); }
+.wd-field-hint { font-size: .75rem; color: var(--c-muted); margin-top: 5px; }
+
+/* ========================================
+   徽章标签，小小的彩条，用来标识状态的
+   ======================================== */
+.wd-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: .72rem; font-weight: 600;
+    background: var(--c-surface2); color: var(--c-muted); border: 1px solid var(--c-border);
+}
+.wd-badge--green  { background: rgba(63,185,80,.12);  color: var(--c-green);  border-color: rgba(63,185,80,.3); }
+.wd-badge--red    { background: rgba(248,81,73,.12);  color: var(--c-red);    border-color: rgba(248,81,73,.3); }
+.wd-badge--yellow { background: rgba(227,179,65,.12); color: var(--c-yellow); border-color: rgba(227,179,65,.3); }
+.wd-badge--blue   { background: rgba(88,166,255,.12); color: var(--c-blue);   border-color: rgba(88,166,255,.3); }
+.wd-badge--gray   { background: var(--c-surface2); color: var(--c-muted); }
+.wd-badge--purple { background: rgba(188,140,255,.12); color: var(--c-purple); border-color: rgba(188,140,255,.3); }
+
+/* ========================================
+   状态小圆点，绿灯亮代表在线，灰灯就是挂了
+   ======================================== */
+.wd-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; flex-shrink: 0; }
+.wd-dot--green { background: var(--c-green); box-shadow: 0 0 6px rgba(63,185,80,.6); animation: wd-glow 2s infinite; }
+.wd-dot--gray  { background: var(--c-border); }
+@keyframes wd-glow { 0%,100%{box-shadow:0 0 4px rgba(63,185,80,.4)} 50%{box-shadow:0 0 10px rgba(63,185,80,.8)} }
+
+.wd-status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; }
+.wd-status-dot--green { background: var(--c-green); animation: wd-glow 2s infinite; }
+
+/* ========================================
+   Modal 弹窗，点确定还是取消你自己看着办
+   ======================================== */
+.wd-modal {
+    position: fixed; inset: 0; z-index: 9999;
+    display: none; align-items: center; justify-content: center;
+}
+.wd-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.75); }
+.wd-modal-dialog {
+    position: relative; z-index: 1;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius); width: 480px; max-width: 96vw;
+    box-shadow: var(--c-shadow);
+    animation: wd-modal-in .18s ease;
+}
+.wd-modal-dialog--sm { width: 360px; }
+.wd-modal-dialog--lg { width: 760px; }
+@keyframes wd-modal-in { from { opacity:0; transform:scale(.95) translateY(8px); } to { opacity:1; transform:none; } }
+.wd-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--c-border);
+}
+.wd-modal-header h3 { font-size: .95rem; font-weight: 600; color: var(--c-text); }
+.wd-modal-close { background: none; border: none; color: var(--c-muted); font-size: 1rem; cursor: pointer; padding: 2px; line-height: 1; }
+.wd-modal-close:hover { color: var(--c-text); }
+.wd-modal-body   { padding: 20px; }
+.wd-modal-footer { padding: 14px 20px; border-top: 1px solid var(--c-border); display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ========================================
+   屏幕监控，远程看别人桌面在干啥，偷窥必备
+   ======================================== */
+.wd-page--screen .wd-content { padding-bottom: 0; }
+.wd-screen-wrap { display: flex; flex-direction: column; gap: 8px; }
+.wd-screen-box {
+    background: #000; border-radius: var(--c-radius); overflow: hidden;
+    border: 1px solid var(--c-border); min-height: 420px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+.wd-screen-box canvas { display: block; max-width: 100%; }
+.wd-screen-placeholder { position: absolute; text-align: center; color: var(--c-muted); }
+.wd-placeholder-icon { font-size: 3rem; opacity: .2; margin-bottom: 12px; }
+.wd-screen-statusbar {
+    display: flex; gap: 20px; padding: 8px 14px;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s); font-size: .78rem; color: var(--c-muted);
+}
+
+/* ========================================
+   终端模拟器，黑乎乎的窗口，假装自己在敲黑客指令
+   ======================================== */
+.wd-page--console .wd-content { display: flex; flex-direction: column; }
+.wd-terminal-wrap {
+    flex: 1; display: flex; flex-direction: column;
+    background: #010409; border: 1px solid var(--c-border);
+    border-radius: var(--c-radius); overflow: hidden; min-height: 420px;
+}
+.wd-terminal-chrome {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; background: #0d1117;
+    border-bottom: 1px solid var(--c-border);
+}
+.wd-chrome-dots { display: flex; gap: 6px; }
+.wd-chrome-dot  { width: 12px; height: 12px; border-radius: 50%; }
+.wd-chrome-dot--red    { background: #ff5f57; }
+.wd-chrome-dot--yellow { background: #ffbd2e; }
+.wd-chrome-dot--green  { background: #28c840; }
+.wd-chrome-title { flex: 1; text-align: center; font-size: .8rem; color: var(--c-muted); font-family: monospace; }
+#wd-xterm { flex: 1; padding: 8px 4px; }
+
+.wd-quick-cmds {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    margin-top: 12px; padding: 10px 14px;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s);
+}
+
+/* ========================================
+   活动流，仪表盘上的动态消息，刷存在感用的
+   ======================================== */
+.wd-activity-feed { max-height: 420px; overflow-y: auto; }
+.wd-feed-item {
+    display: grid; grid-template-columns: 70px 1fr 60px;
+    align-items: center; gap: 12px; padding: 9px 16px;
+    transition: background var(--c-transition);
+}
+.wd-feed-item:hover { background: var(--c-surface2); }
+.wd-feed-type    { font-size: .7rem; font-weight: 700; text-transform: uppercase; }
+.wd-type--purple { color: var(--c-purple); }
+.wd-type--yellow { color: var(--c-yellow); }
+.wd-type--green  { color: var(--c-green); }
+.wd-type--blue   { color: var(--c-blue); }
+.wd-type--red    { color: var(--c-red); }
+.wd-type--gray   { color: var(--c-muted); }
+.wd-feed-content { font-size: .83rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wd-feed-time    { font-size: .73rem; color: var(--c-muted); text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ========================================
+   分页，数据太多了就一页页翻，跟翻书似的
+   ======================================== */
+.wd-pagination { display: flex; gap: 3px; align-items: center; }
+.wd-page-btn {
+    min-width: 30px; height: 30px; padding: 0 6px;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s); color: var(--c-muted);
+    font-size: .8rem; cursor: pointer; transition: all var(--c-transition);
+}
+.wd-page-btn:hover:not([disabled]) { border-color: var(--c-blue); color: var(--c-blue); }
+.wd-page-btn--active { background: var(--c-blue-d); border-color: var(--c-blue-d); color: #fff; }
+.wd-page-btn[disabled] { opacity: .4; cursor: not-allowed; }
+.wd-page-ellipsis { color: var(--c-muted); padding: 0 4px; font-size: .8rem; }
+.wd-total { font-size: .8rem; color: var(--c-muted); }
+
+/* ========================================
+   KOOK 推送规则，一行一行的，配好了就能自动发消息
+   ======================================== */
+.wd-rule-row {
+    display: grid; grid-template-columns: 48px 1fr 200px;
+    align-items: center; gap: 16px;
+    padding: 12px 0; border-bottom: 1px solid var(--c-border-s);
+}
+.wd-rule-row:last-child { border-bottom: none; }
+.wd-rule-info strong  { font-size: .875rem; color: var(--c-text); }
+
+/* 开关组件，拨一下开启，再拨一下关闭，就问你简单不简单 */
+.wd-toggle { position: relative; display: inline-block; width: 40px; height: 22px; cursor: pointer; }
+.wd-toggle input { display: none; }
+.wd-toggle-track {
+    position: absolute; inset: 0; background: var(--c-border);
+    border-radius: 22px; transition: background var(--c-transition);
+}
+.wd-toggle-thumb {
+    position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #fff; transition: transform var(--c-transition);
+}
+.wd-toggle input:checked ~ .wd-toggle-track { background: var(--c-green); }
+.wd-toggle input:checked ~ .wd-toggle-track .wd-toggle-thumb { transform: translateX(18px); }
+
+/* ========================================
+   API Key 展示，一整串密钥露出来，别截图发群里啊
+   ======================================== */
+.wd-key-reveal {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; background: var(--c-bg);
+    border: 1px solid var(--c-border); border-radius: var(--c-radius-s);
+    margin-top: 10px;
+}
+.wd-key-reveal code { flex: 1; font-family: monospace; font-size: .85rem; color: var(--c-green); word-break: break-all; }
+
+/* ========================================
+   登录页，输账号密码那扇门，进不来就啥也干不了
+   ======================================== */
+.wd-body--login { min-height: 100vh; }
+.wd-login-page {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+}
+.wd-login-left {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #0d1620 100%);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 48px; position: relative; overflow: hidden;
+    border-right: 1px solid var(--c-border);
+}
+.wd-login-left::before {
+    content: '◉'; position: absolute; font-size: 280px; opacity: .03;
+    top: -40px; right: -40px; color: var(--c-blue); pointer-events: none;
+}
+.wd-login-logo { font-size: 3rem; color: var(--c-blue); margin-bottom: 12px; animation: wd-pulse 3s infinite; }
+.wd-login-product { font-size: 2rem; font-weight: 800; color: var(--c-text); margin-bottom: 8px; }
+.wd-login-tagline { font-size: 1rem; color: var(--c-muted); margin-bottom: 48px; }
+.wd-login-features { display: flex; flex-direction: column; gap: 16px; }
+.wd-login-feature { display: flex; align-items: center; gap: 12px; color: var(--c-muted); font-size: .9rem; }
+.wd-feature-icon { font-size: 1.1rem; color: var(--c-blue); width: 24px; text-align: center; }
+
+.wd-login-right {
+    background: var(--c-bg);
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 32px;
+}
+.wd-login-card {
+    width: 100%; max-width: 400px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: calc(var(--c-radius) * 1.5);
+    padding: 36px;
+    box-shadow: var(--c-shadow);
+}
+.wd-login-card-header { margin-bottom: 28px; }
+.wd-login-card-header h2 { font-size: 1.4rem; font-weight: 700; color: var(--c-text); margin-bottom: 6px; }
+.wd-login-error {
+    padding: 10px 14px; border-radius: var(--c-radius-s); margin-bottom: 18px;
+    background: rgba(248,81,73,.1); border: 1px solid rgba(248,81,73,.3); color: var(--c-red); font-size: .875rem;
+}
+.wd-login-form { display: flex; flex-direction: column; gap: 16px; }
+.wd-login-form .wd-btn { margin-top: 8px; height: 44px; font-size: 1rem; }
+.wd-login-card-footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--c-border-s); text-align: center; }
+
+@media (max-width: 768px) {
+    .wd-login-page { grid-template-columns: 1fr; }
+    .wd-login-left { display: none; }
+}
+
+/* ========================================
+   Toast 消息弹条，飘出来晃一下告诉你是成功还是翻车了
+   ======================================== */
+.wd-toast-container {
+    position: fixed; top: 20px; right: 20px; z-index: 99999;
+    display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+}
+.wd-toast {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px; border-radius: var(--c-radius-s);
+    font-size: .875rem; box-shadow: var(--c-shadow);
+    opacity: 0; transform: translateX(20px);
+    transition: all .25s ease; pointer-events: all;
+    min-width: 220px; max-width: 360px;
+}
+.wd-toast--show { opacity: 1; transform: none; }
+.wd-toast--success { background: #1a3a1a; border: 1px solid rgba(63,185,80,.4); color: var(--c-green); }
+.wd-toast--error   { background: #3a1a1a; border: 1px solid rgba(248,81,73,.4); color: var(--c-red); }
+.wd-toast-icon     { font-weight: 700; flex-shrink: 0; }
+
+/* ========================================
+   各种动作按钮和工具类，杂七杂八的都丢这儿了
+   ======================================== */
+.wd-actions   { display: flex; gap: 4px; flex-wrap: wrap; }
+.wd-muted     { color: var(--c-muted) !important; }
+.wd-sm        { font-size: .8rem !important; }
+.wd-mono      { font-family: 'Cascadia Code','Consolas',monospace; }
+.wd-p16       { padding: 16px; }
+.wd-notice    { padding: 10px 16px; border-radius: var(--c-radius-s); margin-bottom: 16px; }
+.wd-notice--success { background: rgba(63,185,80,.1); border: 1px solid rgba(63,185,80,.3); color: var(--c-green); }
+.wd-notice--error   { background: rgba(248,81,73,.1);  border: 1px solid rgba(248,81,73,.3);  color: var(--c-red); }
+.wd-code { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--c-radius-s); padding: 16px; font-size: .8rem; color: #c9d1d9; overflow: auto; max-height: 480px; white-space: pre-wrap; word-break: break-word; font-family: 'Cascadia Code','Consolas',monospace; }
+.wd-steps-list { padding-left: 20px; }
+.wd-steps-list li { margin-bottom: 8px; }
+.wd-link  { color: var(--c-blue); text-decoration: none; }
+.wd-link:hover { text-decoration: underline; }
+.wd-info-box { padding: 10px 14px; background: rgba(88,166,255,.06); border: 1px solid rgba(88,166,255,.2); border-radius: var(--c-radius-s); font-size: .83rem; color: var(--c-muted); }
+
+/* ========================================
+   横向筛选栏，排成一排的筛选条件，像个工具条
+   ======================================== */
+.wd-filter-bar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 20px; padding: 12px 16px;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius);
+}
+.wd-filter-date-group { display: flex; align-items: center; gap: 6px; }
+.wd-filter-sep { color: var(--c-muted); font-size: .85rem; }
+/* 旧版的兼容样式，不敢删，怕哪个页面上线就炸了 */
+.wd-filter-row { gap: 8px !important; }
+
+/* ========================================
+   右键菜单，点右键才出来的，藏得挺深
+   ======================================== */
+.wd-ctx-menu {
+    position: fixed; z-index: 9999;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s); box-shadow: var(--c-shadow);
+    min-width: 160px; overflow: hidden;
+    animation: wd-modal-in .12s ease;
+}
+.wd-ctx-item {
+    padding: 9px 16px; font-size: .875rem; cursor: pointer;
+    color: var(--c-text); transition: background var(--c-transition);
+    display: flex; align-items: center; gap: 8px;
+}
+.wd-ctx-item:hover { background: var(--c-surface2); }
+.wd-ctx-item--danger { color: var(--c-red); }
+.wd-ctx-item--danger:hover { background: rgba(248,81,73,.08); }
+
+/* ========================================
+   进程管理，那些后台跑着的程序，全在这儿列着呢
+   ======================================== */
+.wd-proc-summary { font-size: .875rem; color: var(--c-muted); }
+.wd-toggle-label { display: flex; align-items: center; gap: 6px; font-size: .85rem; color: var(--c-muted); cursor: pointer; }
+.wd-toggle-label input { cursor: pointer; }
+.wd-proc-row:hover { background: var(--c-surface2); }
+
+/* 用户中心的样式写在 page-profile.php 里了，这里只留了点跨页面都能用的辅助类，别问为什么这么乱 */
+.wd-mono { font-family: var(--c-mono); font-size: .8rem; color: var(--c-text); }
+
+/* ========================================
+   文件管理，浏览服务器文件的，跟资源管理器差不多
+   ======================================== */
+.wd-path-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    padding: 10px 14px; margin-bottom: 16px;
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-s);
+}
+.wd-path-input-wrap { display: flex; gap: 6px; }
+.wd-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; flex: 1; }
+.wd-crumb-item { font-size: .8rem; color: var(--c-blue); cursor: pointer; padding: 2px 4px; border-radius: 3px; }
+.wd-crumb-item:hover { background: rgba(88,166,255,.1); }
+.wd-crumb-active { color: var(--c-text); cursor: default; font-weight: 600; }
+.wd-crumb-active:hover { background: none; }
+.wd-crumb-sep { font-size: .75rem; color: var(--c-muted); }
+.wd-progress-bar { width: 160px; height: 4px; background: var(--c-surface2); border-radius: 2px; overflow: hidden; }
+.wd-progress-fill { height: 100%; background: var(--c-blue); transition: width .3s; }
+
+/* ========================================
+   注册表树，Windows 注册表那堆键值对，一层套一层的
+   ======================================== */
+.wd-two-col--30-70 { grid-template-columns: 1fr 2fr; }
+.wd-reg-tree { flex: 1; overflow-y: auto; padding: 8px 0; }
+.wd-tree-node {
+    padding: 7px 16px; cursor: pointer; font-size: .83rem;
+    color: var(--c-muted); display: flex; align-items: center; gap: 8px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: background var(--c-transition);
+}
+.wd-tree-node:hover { background: var(--c-surface2); color: var(--c-text); }
+.wd-tree-root { font-weight: 600; color: var(--c-text); font-size: .85rem; }
+.wd-tree-arrow { font-size: .7rem; flex-shrink: 0; transition: transform .15s; }
+.wd-tree-children { padding-left: 4px; }
+
+/* ========================================
+   一些杂七杂八的新图标，凑合着用吧，懒得去找 icon font 了
+   ======================================== */
+.wd-icon-proc::before   { content:'⚙'; }
+.wd-icon-folder::before { content:'📁'; font-style:normal; }
+.wd-icon-reg::before    { content:'⊞'; }
+.wd-icon-users::before    { content:'👥'; font-style:normal; }
+.wd-icon-delivery::before { content:'🚀'; font-style:normal; }
+
+/* ========================================
+   响应式，屏幕小了就缩一缩，总不能让人家手机用户骂娘吧
+   ======================================== */
+@media (max-width: 900px) {
+    .wd-sidebar { transform: translateX(-100%); }
+    .wd-sidebar--open { transform: none; box-shadow: var(--c-shadow); }
+    .wd-main { margin-left: 0; }
+    .wd-menu-toggle { display: flex !important; }
+    .wd-stats-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 540px) {
+    .wd-content { padding: 16px; }
+    .wd-stats-row { grid-template-columns: 1fr; }
+    .wd-topbar { padding: 0 14px; }
+}
